@@ -1,0 +1,58 @@
+# Import necessary libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report,confusion_matrix
+
+# Load the dataset
+
+dataset = pd.read_csv('dataset.csv')
+
+# Explore the dataset
+print(dataset.head())
+
+# Split the data into features (X) and target variable (y)
+X = dataset.drop('PctExtResourceUrlsRT', axis=1)  # Features
+y = dataset['CLASS_LABEL']  # Target variable
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize and train a Random Forest classifier
+clf = RandomForestClassifier()
+clf.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = clf.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Display classification report
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
+print("confusion matrix:")
+print(confusion_matrix(y_test,y_pred))
+def predict_phishing(model, features):
+    # Make sure features match the format expected by the model
+    input_data = [features]
+
+    # Use the trained model to make predictions
+   # prediction = model.predict(input_data)
+
+    # Return the prediction (1 for phishing, 0 for legitimate)
+    #return prediction[0]
+
+
+# Replace input_features with the actual feature values you want to test
+input_features = [0, 1, 2, 3, ...]  # Replace with your features
+prediction = predict_phishing(clf, input_features)
+
+# Display the prediction
+if prediction == 1:
+    print("Phishing webpage detected!")
+else:
+    print("Legitimate webpage.")
+
+
